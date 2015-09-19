@@ -1,0 +1,98 @@
+//This file combined with the CSS for animations makes the clock move very nicely. It also adds
+//the sparkles behind the clock for a nice aesthetic. It supports images being placed in the background
+//as well, but I don't have images the right size so I've just commented that code out for now. I'll
+//still explain it, though.
+
+
+  //Function that places the sparkles where it should be placed and then calls the shine function.
+  //First it finds positionx randomly which will be the x-coordinate for the sparkles.
+  //Then it finds positiony, which will be the y-coordinate for the sparkles.
+  //Assigns positionx to the sparkles' margin-left value.
+  //Assigns positiony to the sparkles' margin-right value.
+  //Calls shine to make the sparkle grow in size
+	function glint(spark) {
+		var positionx = Math.random()*100;
+		var positiony = Math.random()*100;
+		document.getElementById(spark).style.marginLeft = positionx+"%";
+		document.getElementById(spark).style.marginTop = positiony+"%";
+		shine(spark);
+	}
+	
+	//Function that grows the sparkle in size. That's really all it does. Honestly.
+	function shine(spark) {
+		$("#"+spark).addClass("active");
+		setTimeout(function(){unshine(spark)},1000);
+	}
+	
+	//Function that shrinks the sparkle in size. Also pretty simple. 
+	function unshine(spark) {
+		$("#"+spark).removeClass("active");
+		setTimeout(function(){glint(spark);},1000);
+	}
+
+  //StartTime function actually starts the time as well as keeps it going, thought it was simpler to do in one.
+  //The hourhand gets the hourhand from the DOM. It's better to get it once than several times.
+  //The minhand gets the minutehand from the DOM. Same as above.
+  //The sechand gets the secondhand from the DOM. Same as above.
+  //the clock gets the clock from the DOM. Same as above.
+  //Today is the date object using javascript's native Date() function.
+  //H,M,S all get Hours,Minutes,Seconds respectively.
+  //h%12 gets the hour to be 1-12 regardless of what it actually is (for example, 6PM is 18).
+  //Add m/60 to get the exact time because clocks go between ticks depending on progression.
+  //Adds s/60 to m for the same reason as above.
+  //hd is the variable that controls the hourhand. 30 degrees is the difference between each full hour.
+  //md is the variable that controls the minhand. 6 degrees is the difference between each full minute.
+  //sd is the variable that controls the sechand. 6 degrees is the difference between each full second.
+  //All of the rotate functions next.
+	function startTime() {
+		var hourhand = document.getElementById('hour-hand');
+		var minhand = document.getElementById('minute-hand');
+		var sechand = document.getElementById('second-hand');
+		var clock = document.getElementById("clock");
+    	var today = new Date();
+    	var h =	today.getHours();
+    	var m =	today.getMinutes();
+    	var s =	today.getSeconds();
+    	h = h%12;
+    	h = h + m/60;
+    	m = m + s/60;
+    	hd = h*30;
+    	md = m*6;
+    	sd = s*6;
+    	hourhand.style['msTransform'] ='rotate('+hd+'deg)';
+		hourhand.style['WebkitTransform'] ='rotate('+hd+'deg)';
+		hourhand.style['transform'] = 'rotate('+hd+'deg)';
+		minhand.style['msTransform'] ='rotate('+md+'deg)';
+		minhand.style['WebkitTransform'] ='rotate('+md+'deg)';
+		minhand.style['transform'] = 'rotate('+md+'deg)';
+		sechand.style['msTransform'] ='rotate('+sd+'deg)';
+		sechand.style['WebkitTransform'] ='rotate('+sd+'deg)';
+		sechand.style['transform'] = 'rotate('+sd+'deg)';
+		
+		//This is for changing the background. Commented out for now.
+		//clock.style.backgroundImage = "url('/images/background"+Math.round(s/60*6+1)+".jpg')";
+	}
+	
+	
+	//Ready function. Initiates the time, then sets the interval for second check. Also sets all the glints.
+	$(function() {
+		startTime();
+		setInterval(function(){startTime();},1000);
+		setTimeout(function(){glint(0);},100);
+		setTimeout(function(){glint(1);},200);
+		setTimeout(function(){glint(2);},300);
+		setTimeout(function(){glint(3);},400);
+		setTimeout(function(){glint(4);},500);
+		setTimeout(function(){glint(5);},600);
+		setTimeout(function(){glint(6);},700);
+		setTimeout(function(){glint(7);},800);
+		setTimeout(function(){glint(8);},900);
+		setTimeout(function(){glint(9);},1000);
+		setTimeout(function(){glint(10);},1100);
+		setTimeout(function(){glint(11);},1200);
+		setTimeout(function(){glint(12);},1300);
+		setTimeout(function(){glint(13);},1400);
+		setTimeout(function(){glint(14);},1500);
+		setTimeout(function(){glint(15);},1600);
+		setTimeout(function(){glint(16);},1700);
+	});
